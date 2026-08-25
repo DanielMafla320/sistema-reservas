@@ -13,21 +13,26 @@ import java.util.UUID;
 
 public class Cliente {
     private final UUID id;             // Identidad inmutable
-    private final String nombre;       // Inmutable
+    private final String nombre;        // Inmutable
+    private Telefono telefono;          // value object
     private Email email;               // Value Object
     private boolean activo;
     private int penalizaciones;
     
-    public Cliente(String nombre, Email email) {
+    public Cliente(String nombre, Email email, Telefono telefono) {
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalArgumentException("El nombre del cliente es obligatorio");
         }
         if (email == null) {
             throw new IllegalArgumentException("El email del cliente es obligatorio");
         }
+        if ( telefono == null) {
+            throw new IllegalArgumentException("El numero de telefono es obligatorio");
+        }
         this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.email = email;
+        this.telefono = telefono;
         this.activo = true;
         this.penalizaciones = 0;
     }
@@ -60,6 +65,7 @@ public class Cliente {
     public UUID getId() { return id; }
     public String getNombre() { return nombre; }
     public Email getEmail() { return email; }
+    public Telefono getTelefono() {return telefono;} 
     public boolean isActivo() { return activo; }
     public int getPenalizaciones() { return penalizaciones; }
 }
