@@ -15,7 +15,8 @@ public class Reserva {
     private final Cliente cliente;    // Asociación directa con la entidad Cliente
     private RangoFechas periodo;      // Value Object
     private EstadoReserva estado;
-    
+    private final Habitacion habitacion;
+
     public Reserva(Cliente cliente, RangoFechas periodo) {
         if (cliente == null) {
             throw new IllegalArgumentException("El cliente es obligatorio");
@@ -31,6 +32,31 @@ public class Reserva {
         this.cliente = cliente;
         this.periodo = periodo;
         this.estado = EstadoReserva.PENDIENTE;
+        this.habitacion = null;
+    }
+
+    public Reserva(Cliente cliente, RangoFechas periodo, Habitacion habitacion) {
+        if (cliente == null) {
+            throw new IllegalArgumentException("El cliente es obligatorio");
+        }
+        if (!cliente.puedeRealizarReservas()) {
+            throw new IllegalStateException("El cliente '" + cliente.getNombre() + "' no está habilitado para realizar reservas");
+        }
+        if (periodo == null) {
+            throw new IllegalArgumentException("El periodo de la reserva es obligatorio");
+        }
+        if (habitacion == null) {
+            throw new IllegalArgumentException("La habitacion es obligatoria");
+        }
+        if (!habitacion.estaDisponible()) {
+            throw new IllegalStateException("La habitacion '" + habitacion.getNumeroHabitacion().getValor() + "' no está disponible para la reserva");
+        }
+
+        this.id = UUID.randomUUID();
+        this.cliente = cliente;
+        this.periodo = periodo;
+        this.estado = EstadoReserva.PENDIENTE;
+        this.habitacion = habitacion;
     }
     
     public void confirmar() {
@@ -51,4 +77,5 @@ public class Reserva {
     public Cliente getCliente() { return cliente; }
     public RangoFechas getPeriodo() { return periodo; }
     public EstadoReserva getEstado() { return estado; }
+    public Habitacion getHabitacion() { return habitacion; }
 }
