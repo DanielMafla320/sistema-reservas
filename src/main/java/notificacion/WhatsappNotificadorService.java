@@ -4,14 +4,17 @@
  */
 package notificacion;
 
+
 import com.mycompany.sistema.reservas.dominio.modelo.Cliente;
 
-import com.mycompany.sistema.reservas.dominio.modelo.Telefono;
+
 /**
  *
- * @author daferarte
+ * @author DanielMafla
  */
-// ISP: Contrato simple, sin métodos innecesarios para quien lo consuma
-public interface NotificadorService {
-    void notificar(Cliente cliente, String mensaje);
+public class WhatsappNotificadorService implements NotificadorService {
+    @Override
+    public void notificar(Cliente cliente,String mensaje) {
+        System.out.println("[Mensaje de whatsapp enviado al cliente " + cliente.getNombre() + "]: " + mensaje  );
+    }
 }
